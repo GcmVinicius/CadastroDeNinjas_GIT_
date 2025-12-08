@@ -6,12 +6,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tb_cadastro")
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+@ToString(exclude = "missoes")
 public class NinjaModel {
 
     //o id logo abaixo será detalhado como id da entidade e o generated gera uma estratégia para o id
