@@ -1,6 +1,9 @@
 package dev.java10x.CadastroDeNinjas.Missoes;
 
 import dev.java10x.CadastroDeNinjas.Ninja.NinjaModel;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,11 @@ public class MissoesController {
     }
 
     @PostMapping("/criar")
+    @Operation(summary = "Cria uma nova missão", description = "Rota cria uma nova missao e insere no banco de dados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Missao criada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro na criaçao da missa")
+    })
     public ResponseEntity<String> criarMissao(@RequestBody MissoesDTO missao){
         MissoesDTO novaMissao = missaoService.criarMissao(missao);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -35,6 +43,11 @@ public class MissoesController {
     }
 
     @GetMapping("/listarId/{id} ")
+    @Operation(summary = "Lista a missao por Id", description = "Rota lista uma missao pelo seu id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Missao encontrada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Missao nao encontrada")
+    })
     public ResponseEntity<?> mostrarTodasMissoesPorID(@PathVariable Long id){
         MissoesDTO missao = missaoService.listarMissaoPorId(id);
 
@@ -48,6 +61,11 @@ public class MissoesController {
 
 //Put- mandar uma requisição para alterar missoes
 @PutMapping("/alterar/{id}")
+@Operation(summary = "Altera a missao por Id", description = "Rota altera uma missap pelo seu id")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Missao alterada com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Missao nao encontrada, nao foi possivel alterar")
+})
 public ResponseEntity<?> alterarMissao(@PathVariable Long id, @RequestBody MissoesDTO missao ){
     MissoesDTO missaoAtualizada = missaoService.atualizarMissao(id, missao);
     if (missaoAtualizada != null) {
